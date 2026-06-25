@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Días Libres Sapito">
+  <meta name="theme-color" content="#1e293b">
+  <title>Días Libres – CasaIdeas Algarrobo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --az9:#1e293b;--az8:#1e40af;--az7:#1d4ed8;--az6:#2563eb;--az5:#2563eb;
+      --az4:#3b82f6;--az3:#93c5fd;--az1:#dbeafe;--az0:#eff6ff;
+      --bl:#ffffff;--g9:#111827;--g7:#374151;--g5:#6b7280;
+      --g2:#e5e7eb;--g1:#f3f4f6;--g0:#f9fafb;--fondo:#f0f2f5;
+      --verde:#16a34a;--verde-bg:#dcfce7;
+      --am:#d97706;--am-bg:#fef3c7;
+      --rojo:#dc2626;--rojo-bg:#fee2e2;
+      --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+      --radio:14px;--sombra:0 4px 24px rgba(0,0,0,0.13);
+    }
+    html { height:100%; -webkit-text-size-adjust:100%; }
+    body {
+      font-family:var(--font); background:var(--fondo); min-height:100vh;
+      color:var(--g9); display:flex; flex-direction:column;
+      padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom);
+    }
+    /* HEADER */
+    .header { background:var(--bl); box-shadow:0 1px 8px rgba(0,0,0,.07); border-bottom:1px solid var(--g2); position:sticky; top:0; z-index:50; }
+    .header-inner { max-width:720px; margin:0 auto; padding:12px 18px; display:flex; align-items:center; gap:14px; }
+    .logo-wrap { flex-shrink:0; background:var(--g0); border:1px solid var(--g2); border-radius:10px; padding:7px 11px; }
+    .logo { height:32px; width:auto; object-fit:contain; display:block; }
+    .header-text { flex:1; min-width:0; }
+    .header-eyebrow { font-size:9px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--az5); margin-bottom:2px; }
+    .header-title { font-size:19px; font-weight:900; color:var(--g9); letter-spacing:-.5px; line-height:1; }
+    .header-title .ver { color:var(--az6); font-size:20px; }
+    .header-loc { font-size:11px; color:var(--g5); margin-top:3px; font-weight:500; }
+    .header-nav { display:flex; gap:6px; margin-left:auto; flex-shrink:0; flex-wrap:wrap; justify-content:flex-end; }
+    .nav-btn {
+      padding:7px 12px; border-radius:20px; border:1.5px solid var(--g2);
+      background:var(--g0); font-size:12px; font-weight:700; color:var(--g7);
+      cursor:pointer; white-space:nowrap; transition:all .15s; font-family:var(--font);
+    }
+    .nav-btn:hover { background:var(--az1); border-color:var(--az4); color:var(--az7); }
+    .nav-btn.active { background:var(--az6); color:#fff; border-color:var(--az6); }
+    /* MAIN */
+    .main { flex:1; max-width:720px; width:100%; margin:0 auto; padding:20px 16px 48px; display:flex; flex-direction:column; gap:16px; }
+    /* CARD */
+    .card { background:var(--bl); border-radius:var(--radio); box-shadow:var(--sombra); border:1px solid var(--g2); overflow:hidden; }
+    .card-header { background:linear-gradient(135deg,var(--az9),var(--az7)); padding:16px 20px; display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(59,130,246,.2); }
+    .card-header-icon { width:38px; height:38px; border-radius:10px; background:rgba(255,255,255,.12); display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+    .card-header-title { font-size:16px; font-weight:900; color:#fff; }
+    .card-header-sub { font-size:11px; color:var(--az3); margin-top:2px; }
+    .card-body { padding:20px; }
+    .eyebrow { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--az5); margin-bottom:12px; display:flex; align-items:center; gap:6px; }
+    .eyebrow::before { content:''; display:block; width:3px; height:14px; background:var(--az5); border-radius:2px; }
+    /* FORMS */
+    .field-label { font-size:13px; font-weight:600; color:var(--g5); margin-bottom:6px; }
+    select, input[type="text"], input[type="password"], input[type="number"] {
+      width:100%; padding:12px 14px; border:2px solid var(--g2); border-radius:11px;
+      font-size:15px; font-family:var(--font); color:var(--g9); background:var(--g0);
+      outline:none; -webkit-appearance:none; transition:border-color .2s, box-shadow .2s, background .2s;
+    }
+    select:focus, input:focus { border-color:var(--az4); background:var(--bl); box-shadow:0 0 0 4px rgba(59,130,246,.1); }
+    textarea.motivo-input {
+      width:100%; padding:11px 14px; border:2px solid var(--g2); border-radius:11px;
+      font-size:14px; font-family:var(--font); color:var(--g9); background:var(--g0);
+      outline:none; resize:vertical; min-height:68px; transition:border-color .2s, box-shadow .2s;
+    }
+    textarea.motivo-input:focus { border-color:var(--az4); background:var(--bl); box-shadow:0 0 0 4px rgba(59,130,246,.1); }
+    /* BOTONES */
+    .btn { padding:13px 24px; border:none; border-radius:11px; font-size:15px; font-weight:700; cursor:pointer; transition:all .15s; font-family:var(--font); -webkit-tap-highlight-color:transparent; }
+    .btn-primary { background:linear-gradient(135deg,var(--az7),var(--az5)); color:#fff; box-shadow:0 4px 14px rgba(29,78,216,.3); }
+    .btn-primary:hover { opacity:.92; }
+    .btn-primary:active { transform:scale(.97); }
+    .btn-primary:disabled { opacity:.45; cursor:not-allowed; }
+    .btn-sm { padding:8px 16px; font-size:13px; border-radius:9px; }
+    .btn-success { background:var(--verde); color:#fff; }
+    .btn-success:hover { opacity:.88; }
+    .btn-danger { background:var(--rojo); color:#fff; }
+    .btn-danger:hover { opacity:.88; }
+    .btn-ghost { background:var(--g1); color:var(--g7); border:1.5px solid var(--g2); }
+    .btn-ghost:hover { background:var(--g2); }
+    .btn-warn { background:var(--am); color:#fff; }
+    .btn-warn:hover { opacity:.88; }
+    .logout-btn { font-size:12px; color:var(--g5); cursor:pointer; padding:6px 12px; border-radius:8px; border:1.5px solid var(--g2); background:transparent; font-family:var(--font); transition:all .15s; }
+    .logout-btn:hover { background:var(--rojo-bg); color:var(--rojo); border-color:#fca5a5; }
+    /* CALENDARIO */
+    .cal-wrap { margin-top:16px; }
+    .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .cal-month { font-size:16px; font-weight:800; color:var(--g9); }
+    .cal-nav { width:34px; height:34px; border-radius:9px; border:1.5px solid var(--g2); background:var(--g0); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px; transition:all .15s; line-height:1; }
+    .cal-nav:hover { background:var(--az1); border-color:var(--az4); }
+    .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
+    .cal-dow { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--g5); text-align:center; padding:5px 0; }
+    .cal-day { aspect-ratio:1; border-radius:10px; border:1.5px solid var(--g2); background:var(--g0); font-size:14px; font-weight:600; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all .12s; user-select:none; -webkit-tap-highlight-color:transparent; }
+    .cal-day:hover:not(.cal-empty):not(.cal-past):not(.cal-taken) { background:var(--az1); border-color:var(--az4); color:var(--az7); }
+    .cal-day.selected { background:var(--az6); border-color:var(--az7); color:#fff; }
+    .cal-day.cal-empty { background:transparent; border-color:transparent; cursor:default; }
+    .cal-day.cal-past { color:var(--g2); background:var(--g0); cursor:not-allowed; border-color:var(--g1); }
+    .cal-day.cal-taken { background:var(--rojo-bg); border-color:#fca5a5; color:var(--rojo); cursor:not-allowed; }
+    .cal-day.cal-today { border-color:var(--az4); font-weight:900; }
+    .cal-leyenda { display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+    .ley-item { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--g5); }
+    .ley-dot { width:13px; height:13px; border-radius:4px; flex-shrink:0; }
+    .sel-count { display:inline-flex; align-items:center; gap:6px; background:var(--az1); color:var(--az7); border-radius:20px; padding:6px 14px; font-size:13px; font-weight:700; margin-top:12px; }
+    /* ALERTAS */
+    .alert { border-radius:11px; padding:14px 16px; font-size:14px; font-weight:600; }
+    .alert-success { background:var(--verde-bg); color:#166534; border:1.5px solid #86efac; }
+    .alert-error   { background:var(--rojo-bg);  color:#991b1b; border:1.5px solid #fca5a5; }
+    .alert-warn    { background:var(--am-bg);    color:#92400e; border:1.5px solid #fcd34d; }
+    .alert-info    { background:var(--az1);      color:#1e40af; border:1.5px solid var(--az3); }
+    /* STATS */
+    .stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:18px; }
+    .stat-box { background:var(--g0); border:1.5px solid var(--g2); border-radius:12px; padding:14px; text-align:center; }
+    .stat-num { font-size:30px; font-weight:900; line-height:1; }
+    .stat-lbl { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--g5); margin-top:4px; }
+    /* FILTROS */
+    .filter-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+    .filt-btn { padding:7px 16px; border-radius:20px; border:1.5px solid var(--g2); background:var(--g0); font-size:12px; font-weight:700; color:var(--g7); cursor:pointer; transition:all .15s; font-family:var(--font); }
+    .filt-btn:hover { background:var(--az1); border-color:var(--az4); color:var(--az7); }
+    .filt-btn.active { background:var(--az6); color:#fff; border-color:var(--az6); }
+    /* SOLICITUD CARD */
+    .sol-card { border:1.5px solid var(--g2); border-radius:13px; padding:15px 17px; background:var(--g0); margin-bottom:10px; }
+    .sol-top { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+    .sol-name { font-size:15px; font-weight:800; color:var(--g9); }
+    .sol-meta { font-size:12px; color:var(--g5); margin-top:2px; line-height:1.5; }
+    .sol-dias { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+    .dia-chip { background:var(--az1); color:var(--az7); border-radius:7px; padding:4px 10px; font-size:12px; font-weight:700; font-family:monospace; }
+    .status-badge { display:inline-flex; align-items:center; gap:5px; padding:5px 13px; border-radius:20px; font-size:12px; font-weight:700; white-space:nowrap; flex-shrink:0; }
+    .sb-pend { background:var(--am-bg);    color:var(--am); }
+    .sb-ok   { background:var(--verde-bg); color:var(--verde); }
+    .sb-ko   { background:var(--rojo-bg);  color:var(--rojo); }
+    .sol-actions { display:flex; gap:8px; margin-top:13px; flex-wrap:wrap; }
+    .rechazo-box { margin-top:10px; }
+    .rechazo-box input { font-size:13px; padding:9px 12px; border-radius:9px; }
+    .row-btns { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
+    .no-sols { text-align:center; padding:48px 20px; color:var(--g5); }
+    .no-sols .ic { font-size:44px; margin-bottom:12px; opacity:.5; }
+    /* LOGIN / PIN */
+    .pin-row { display:flex; gap:10px; align-items:center; }
+    .pin-row input { flex:1; letter-spacing:5px; font-size:20px; font-family:monospace; }
+    .pin-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    /* MIS SOLICITUDES */
+    .mis-sol-card { border:1.5px solid var(--g2); border-radius:13px; padding:15px 17px; margin-bottom:10px; }
+    .mis-sol-card.estado-pendiente { background:var(--am-bg); border-color:#fcd34d; }
+    .mis-sol-card.estado-aprobado  { background:var(--verde-bg); border-color:#86efac; }
+    .mis-sol-card.estado-rechazado { background:var(--rojo-bg); border-color:#fca5a5; }
+    .mis-sol-title { font-size:14px; font-weight:800; color:var(--g9); }
+    .mis-sol-meta  { font-size:12px; color:var(--g5); margin-top:3px; }
+    .mis-sol-rechazo { font-size:13px; font-weight:600; color:var(--rojo); margin-top:8px; padding:8px 12px; background:rgba(255,255,255,.6); border-radius:8px; }
+    /* ADMIN RESET PIN */
+    .colab-row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--g2); gap:10px; flex-wrap:wrap; }
+    .colab-row:last-child { border-bottom:none; }
+    .colab-nombre { font-size:14px; font-weight:700; color:var(--g9); }
+    .colab-pin-status { font-size:12px; color:var(--g5); }
+    /* UTILS */
+    .mt-8  { margin-top:8px; }
+    .mt-12 { margin-top:12px; }
+    .mt-16 { margin-top:16px; }
+    .mt-20 { margin-top:20px; }
+    .w100  { width:100%; }
+    .hidden { display:none !important; }
+    .footer { text-align:center; padding:16px; font-size:11px; color:var(--g5); border-top:1px solid var(--g2); background:var(--bl); padding-bottom:calc(16px + env(safe-area-inset-bottom)); }
+    @media (max-width:480px) {
+      .header-title { font-size:17px; }
+      .main { padding:14px 12px 36px; gap:12px; }
+      .card-body { padding:16px; }
+      .stats-row { gap:8px; }
+      .stat-num { font-size:24px; }
+      .cal-day { font-size:13px; }
+      .nav-btn { padding:6px 10px; font-size:11px; }
+      .pin-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-wrap">
+      <img src="https://www.casaideas.com.bo/static/media/logo.40b7cd09.png" alt="Casaideas" class="logo" onerror="this.style.display='none'"/>
+    </div>
+    <div class="header-text">
+      <div class="header-eyebrow">Gestión de Turnos</div>
+      <div class="header-title">Días Libres <span class="ver">Mensual</span></div>
+      <div class="header-loc">📍 Algarrobo</div>
+    </div>
+    <div class="header-nav">
+      <button class="nav-btn active" id="navSolicitar"  onclick="verVista('solicitar')">📅 Solicitar</button>
+      <button class="nav-btn"        id="navMisSol"     onclick="verVista('mis-solicitudes')">📋 Mis días</button>
+      <button class="nav-btn"        id="navAdmin"      onclick="verVista('login-admin')">🔐 Admin</button>
+    </div>
+  </div>
+</header>
+
+<main class="main" id="mainContent"></main>
+
+<footer class="footer">
+  Días Libres Mensual &nbsp;·&nbsp; CasaIdeas Algarrobo
+</footer>
+
+<script>
+'use strict';
+
+/* ═══════════════════════════════════════
+   ⚙️  CONFIGURACIÓN — edita estos valores
+═══════════════════════════════════════ */
+const COLABORADORES = [
+  'Patricia Ascanio',
+  'Alejandro Silva',
+  'Mauricio Carreño',
+  'Paulina Henriquez',
+  'Scarleth Gallardo',
+  'Lucas Gonzalez',
+  'Alberto Toro',
+  'Isidora Pereira',
+  'Alejandra Carrasco',
+  'Makarena Valenti',
+  'Pamela Verdejo',
+  'Diego Peralta',
+  'Andres Huincahual',
+  'Camila Poblete',
+  // ← agrega o quita nombres aquí
+];
+
+const PIN_ADMIN = '5938';   // ← PIN del dashboard administrador
+
+/* ═══════════════════════════════════════
+   CONSTANTES
+═══════════════════════════════════════ */
+const MESES    = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DIAS_SEM = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const LS_SOL   = 'sapito_solicitudes_v1';
+const LS_PINS  = 'sapito_pins_v1';      // { "Nombre Apellido": "1234", ... }
+
+/* ═══════════════════════════════════════
+   ESTADO
+═══════════════════════════════════════ */
+let solicitudes   = [];
+let pinesColab    = {};   // mapa nombre → PIN hasheado (simple)
+let adminLogueado = false;
+let filtroAdmin   = 'todos';
+let calState      = { anio:0, mes:0, seleccionados:[] };
+let vistaActual   = 'solicitar';
+
+/* ═══════════════════════════════════════
+   PERSISTENCIA
+═══════════════════════════════════════ */
+function cargarDatos() {
+  try { solicitudes = JSON.parse(localStorage.getItem(LS_SOL) || '[]'); } catch(_){ solicitudes=[]; }
+  try { pinesColab  = JSON.parse(localStorage.getItem(LS_PINS) || '{}'); } catch(_){ pinesColab={}; }
+}
+function guardarSolicitudes() {
+  try { localStorage.setItem(LS_SOL, JSON.stringify(solicitudes)); } catch(_){}
+}
+function guardarPines() {
+  try { localStorage.setItem(LS_PINS, JSON.stringify(pinesColab)); } catch(_){}
+}
+
+/* PIN simple: guardamos el string tal cual (en producción usaría hash) */
+function pinCorrecto(nombre, pin) { return pinesColab[nombre] === pin; }
+function tienePin(nombre)         { return nombre in pinesColab; }
+function setPin(nombre, pin)      { pinesColab[nombre] = pin; guardarPines(); }
+function resetPin(nombre)         { delete pinesColab[nombre]; guardarPines(); }
+
+/* ═══════════════════════════════════════
+   UTILIDADES
+═══════════════════════════════════════ */
+function hoy() {
+  const d = new Date();
+  return { anio:d.getFullYear(), mes:d.getMonth(), dia:d.getDate() };
+}
+function fmtFecha(anio, mes, dia) {
+  return `${String(dia).padStart(2,'0')}/${String(mes+1).padStart(2,'0')}/${anio}`;
+}
+function fmtMes(anio, mes) { return `${MESES[mes]} ${anio}`; }
+function tsToStr(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit',year:'numeric'})
+       + ' ' + d.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});
+}
+function diasOcupados(nombre, anio, mes) {
+  const taken = new Set();
+  for (const s of solicitudes) {
+    if (s.colaborador !== nombre) continue;
+    if (s.estado === 'rechazado') continue;
+    for (const d of s.dias)
+      if (d.anio === anio && d.mes === mes) taken.add(d.dia);
+  }
+  return taken;
+}
+function esc(s) {
+  return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ═══════════════════════════════════════
+   NAVEGACIÓN
+═══════════════════════════════════════ */
+function verVista(v) {
+  vistaActual = v;
+  document.getElementById('navSolicitar').classList.toggle('active', v==='solicitar');
+  document.getElementById('navMisSol').classList.toggle('active',    v==='mis-solicitudes' || v==='mis-sol-login' || v==='mis-sol-crear-pin');
+  document.getElementById('navAdmin').classList.toggle('active',     v==='login-admin' || v==='admin');
+  const renders = {
+    'solicitar':         renderSolicitar,
+    'mis-solicitudes':   renderMisSolLogin,
+    'mis-sol-login':     renderMisSolLogin,
+    'mis-sol-crear-pin': renderCrearPin,
+    'login-admin':       renderLoginAdmin,
+    'admin':             renderAdmin,
+  };
+  (renders[v] || renderSolicitar)();
+}
+
+/* ═══════════════════════════════════════
+   VISTA: SOLICITAR
+═══════════════════════════════════════ */
+function renderSolicitar() {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon">👤</div>
+        <div>
+          <div class="card-header-title">Solicitar días libres</div>
+          <div class="card-header-sub">Selecciona tu nombre y los días que necesitas</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="eyebrow">Colaborador</div>
+        <div class="field-label">¿Quién eres?</div>
+        <select id="selectColab" onchange="onCambioColab()">
+          <option value="">— Selecciona tu nombre —</option>
+          ${COLABORADORES.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')}
+        </select>
+        <div id="calSection" class="hidden cal-wrap">
+          <div class="eyebrow">Elige los días</div>
+          <div id="calContainer"></div>
+          <div id="selCount" class="hidden"></div>
+          <div id="motivoBox" class="hidden mt-16">
+            <div class="field-label">Motivo <span style="color:var(--g5);font-weight:400">(opcional)</span></div>
+            <textarea class="motivo-input" id="motivoInput" placeholder="Ej: Trámite personal, cita médica, viaje…"></textarea>
+          </div>
+          <button class="btn btn-primary w100 mt-16" id="btnEnviar" onclick="enviarSolicitud()" disabled>Enviar solicitud</button>
+          <div id="msgSolicitud" class="mt-12"></div>
+        </div>
+      </div>
+    </div>`;
+  const h = hoy();
+  calState = { anio:h.anio, mes:h.mes, seleccionados:[] };
+}
+
+function onCambioColab() {
+  const colab = document.getElementById('selectColab').value;
+  const sec   = document.getElementById('calSection');
+  if (!colab) { sec.classList.add('hidden'); return; }
+  calState.seleccionados = [];
+  sec.classList.remove('hidden');
+  renderCalendario();
+}
+
+function renderCalendario() {
+  const { anio, mes } = calState;
+  const colab     = document.getElementById('selectColab')?.value || '';
+  const taken     = diasOcupados(colab, anio, mes);
+  const h         = hoy();
+  const primerDia = new Date(anio, mes, 1).getDay();
+  const totalDias = new Date(anio, mes+1, 0).getDate();
+
+  let html = `<div class="cal-header">
+    <button class="cal-nav" onclick="cambiarMes(-1)">‹</button>
+    <span class="cal-month">${fmtMes(anio,mes)}</span>
+    <button class="cal-nav" onclick="cambiarMes(1)">›</button>
+  </div><div class="cal-grid">`;
+
+  DIAS_SEM.forEach(d => { html += `<div class="cal-dow">${d}</div>`; });
+  for (let i=0; i<primerDia; i++) html += `<div class="cal-day cal-empty"></div>`;
+
+  for (let d=1; d<=totalDias; d++) {
+    const esPasado = (anio<h.anio)||(anio===h.anio&&mes<h.mes)||(anio===h.anio&&mes===h.mes&&d<h.dia);
+    const esHoy    = anio===h.anio&&mes===h.mes&&d===h.dia;
+    const esTomado = taken.has(d);
+    const esSel    = calState.seleccionados.includes(d);
+    let cls = 'cal-day';
+    if (esPasado)  cls += ' cal-past';
+    else if (esTomado) cls += ' cal-taken';
+    else if (esSel)   cls += ' selected';
+    if (esHoy) cls += ' cal-today';
+    const click = (!esPasado&&!esTomado) ? `onclick="toggleDia(${d})"` : '';
+    html += `<div class="${cls}" ${click}>${d}</div>`;
+  }
+
+  html += `</div><div class="cal-leyenda">
+    <div class="ley-item"><div class="ley-dot" style="background:var(--az6)"></div>Seleccionado</div>
+    <div class="ley-item"><div class="ley-dot" style="background:var(--rojo-bg);border:1px solid #fca5a5"></div>Ya solicitado</div>
+    <div class="ley-item"><div class="ley-dot" style="background:var(--g1);border:1px solid var(--g2)"></div>No disponible</div>
+  </div>`;
+
+  document.getElementById('calContainer').innerHTML = html;
+  actualizarContador();
+}
+
+function cambiarMes(delta) {
+  let { anio, mes } = calState;
+  mes += delta;
+  if (mes<0)  { mes=11; anio--; }
+  if (mes>11) { mes=0;  anio++; }
+  calState.anio=anio; calState.mes=mes; calState.seleccionados=[];
+  renderCalendario();
+}
+
+function toggleDia(d) {
+  const idx = calState.seleccionados.indexOf(d);
+  if (idx>=0) calState.seleccionados.splice(idx,1);
+  else        calState.seleccionados.push(d);
+  calState.seleccionados.sort((a,b)=>a-b);
+  renderCalendario();
+}
+
+function actualizarContador() {
+  const n       = calState.seleccionados.length;
+  const countEl = document.getElementById('selCount');
+  const motivEl = document.getElementById('motivoBox');
+  const btnEl   = document.getElementById('btnEnviar');
+  if (n>0) {
+    countEl.className = 'sel-count';
+    countEl.innerHTML = `📅 <strong>${n} día${n>1?'s':''}</strong> seleccionado${n>1?'s':''}: ${calState.seleccionados.join(', ')} de ${MESES[calState.mes]}`;
+    motivEl.classList.remove('hidden');
+    btnEl.disabled = false;
+  } else {
+    countEl.classList.add('hidden');
+    motivEl.classList.add('hidden');
+    btnEl.disabled = true;
+  }
+}
+
+function enviarSolicitud() {
+  const colab  = document.getElementById('selectColab').value;
+  const motivo = document.getElementById('motivoInput')?.value.trim() || '';
+  if (!colab || calState.seleccionados.length===0) return;
+
+  solicitudes.push({
+    id: Date.now()+Math.random().toString(36).slice(2),
+    colaborador: colab,
+    dias: calState.seleccionados.map(d=>({ anio:calState.anio, mes:calState.mes, dia:d })),
+    motivo, estado:'pendiente', ts:Date.now(), motivoRechazo:''
+  });
+  guardarSolicitudes();
+
+  document.getElementById('msgSolicitud').innerHTML =
+    `<div class="alert alert-success">✅ Solicitud enviada. Revisa el estado en <strong>📋 Mis días</strong>.</div>`;
+  calState.seleccionados = [];
+  document.getElementById('selectColab').value = '';
+  document.getElementById('calSection').classList.add('hidden');
+  setTimeout(()=>{ const m=document.getElementById('msgSolicitud'); if(m) m.innerHTML=''; }, 5000);
+}
+
+/* ═══════════════════════════════════════
+   VISTA: MIS SOLICITUDES — LOGIN
+═══════════════════════════════════════ */
+function renderMisSolLogin() {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card" style="max-width:420px;margin:0 auto">
+      <div class="card-header">
+        <div class="card-header-icon">📋</div>
+        <div>
+          <div class="card-header-title">Mis días solicitados</div>
+          <div class="card-header-sub">Ingresa para ver el estado de tus solicitudes</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="eyebrow">Identificación</div>
+        <div class="field-label">Tu nombre</div>
+        <select id="misColabSelect" onchange="onMisColabChange()">
+          <option value="">— Selecciona tu nombre —</option>
+          ${COLABORADORES.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')}
+        </select>
+        <div id="misPinSection" class="hidden mt-16">
+          <div id="misPinContent"></div>
+        </div>
+        <div id="misLoginError" class="mt-12"></div>
+      </div>
+    </div>`;
+}
+
+function onMisColabChange() {
+  const nombre  = document.getElementById('misColabSelect').value;
+  const sec     = document.getElementById('misPinSection');
+  const content = document.getElementById('misPinContent');
+  if (!nombre) { sec.classList.add('hidden'); return; }
+  sec.classList.remove('hidden');
+
+  if (tienePin(nombre)) {
+    content.innerHTML = `
+      <div class="field-label">Tu PIN de acceso</div>
+      <div class="pin-row">
+        <input type="password" inputmode="numeric" maxlength="6" id="misPinInput"
+          placeholder="••••" onkeydown="if(event.key==='Enter') loginMisSol()"/>
+        <button class="btn btn-primary" onclick="loginMisSol()">Ver mis días</button>
+      </div>
+      <p style="font-size:12px;color:var(--g5);margin-top:8px">¿Olvidaste tu PIN? Pide al administrador que lo reinicie.</p>`;
+    setTimeout(()=>document.getElementById('misPinInput')?.focus(), 80);
+  } else {
+    content.innerHTML = `
+      <div class="alert alert-info" style="margin-bottom:14px">
+        👋 Es tu primera vez. Crea un PIN personal de 4 dígitos para proteger tus solicitudes.
+      </div>
+      <button class="btn btn-primary w100" onclick="irCrearPin()">Crear mi PIN</button>`;
+  }
+}
+
+function loginMisSol() {
+  const nombre = document.getElementById('misColabSelect').value;
+  const pin    = document.getElementById('misPinInput')?.value.trim();
+  const errEl  = document.getElementById('misLoginError');
+  if (pinCorrecto(nombre, pin)) {
+    renderMisSolicitudes(nombre);
+  } else {
+    errEl.innerHTML = `<div class="alert alert-error">PIN incorrecto. Intenta nuevamente.</div>`;
+    setTimeout(()=>{ if(errEl) errEl.innerHTML=''; }, 3000);
+  }
+}
+
+/* ── CREAR PIN ── */
+function irCrearPin() {
+  const nombre = document.getElementById('misColabSelect').value;
+  if (!nombre) return;
+  renderCrearPin(nombre);
+}
+
+function renderCrearPin(nombreParam) {
+  const nombre = nombreParam || '';
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card" style="max-width:420px;margin:0 auto">
+      <div class="card-header">
+        <div class="card-header-icon">🔑</div>
+        <div>
+          <div class="card-header-title">Crear PIN personal</div>
+          <div class="card-header-sub">${esc(nombre)}</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="alert alert-info" style="margin-bottom:16px">
+          Elige un PIN de 4 dígitos. Nadie más podrá verlo — úsalo cada vez que quieras revisar tus días.
+        </div>
+        <div class="pin-grid">
+          <div>
+            <div class="field-label">PIN nuevo</div>
+            <input type="password" inputmode="numeric" maxlength="6"
+              id="pinNuevo" placeholder="••••"
+              onkeydown="if(event.key==='Enter') document.getElementById('pinConfirm').focus()"/>
+          </div>
+          <div>
+            <div class="field-label">Confirmar PIN</div>
+            <input type="password" inputmode="numeric" maxlength="6"
+              id="pinConfirm" placeholder="••••"
+              onkeydown="if(event.key==='Enter') guardarPin('${esc(nombre)}')"/>
+          </div>
+        </div>
+        <button class="btn btn-primary w100 mt-16" onclick="guardarPin('${esc(nombre)}')">Guardar PIN y continuar</button>
+        <div id="pinError" class="mt-12"></div>
+        <button class="btn btn-ghost w100 mt-8" onclick="verVista('mis-solicitudes')">← Volver</button>
+      </div>
+    </div>`;
+  setTimeout(()=>document.getElementById('pinNuevo')?.focus(), 80);
+}
+
+function guardarPin(nombre) {
+  const p1  = document.getElementById('pinNuevo')?.value.trim();
+  const p2  = document.getElementById('pinConfirm')?.value.trim();
+  const err = document.getElementById('pinError');
+  if (!p1 || p1.length < 4) { err.innerHTML=`<div class="alert alert-error">El PIN debe tener al menos 4 dígitos.</div>`; return; }
+  if (p1 !== p2)            { err.innerHTML=`<div class="alert alert-error">Los PINs no coinciden. Intenta nuevamente.</div>`; return; }
+  setPin(nombre, p1);
+  renderMisSolicitudes(nombre);
+}
+
+/* ═══════════════════════════════════════
+   VISTA: MIS SOLICITUDES — LISTADO
+═══════════════════════════════════════ */
+function renderMisSolicitudes(nombre) {
+  const misSols = solicitudes.filter(s => s.colaborador === nombre).sort((a,b)=>b.ts-a.ts);
+
+  const statusMap = { pendiente:'⏳ Pendiente', aprobado:'✅ Aprobado', rechazado:'❌ Rechazado' };
+  const sClsMap   = { pendiente:'sb-pend', aprobado:'sb-ok', rechazado:'sb-ko' };
+
+  let listHtml = '';
+  if (misSols.length === 0) {
+    listHtml = `<div class="no-sols"><div class="ic">📭</div><p>Aún no tienes solicitudes enviadas.</p></div>`;
+  } else {
+    listHtml = misSols.map(s => {
+      const rechMsg = s.motivoRechazo
+        ? `<div class="mis-sol-rechazo">💬 Motivo: ${esc(s.motivoRechazo)}</div>` : '';
+      return `
+        <div class="mis-sol-card estado-${s.estado}">
+          <div class="sol-top">
+            <div>
+              <div class="mis-sol-title">${s.dias.length} día${s.dias.length>1?'s':''} solicitado${s.dias.length>1?'s':''}</div>
+              <div class="mis-sol-meta">Enviado: ${tsToStr(s.ts)}</div>
+              ${s.motivo ? `<div class="mis-sol-meta">Motivo: ${esc(s.motivo)}</div>` : ''}
+            </div>
+            <span class="status-badge ${sClsMap[s.estado]}">${statusMap[s.estado]}</span>
+          </div>
+          <div class="sol-dias" style="margin-top:10px">
+            ${s.dias.map(d=>`<span class="dia-chip">${fmtFecha(d.anio,d.mes,d.dia)}</span>`).join('')}
+          </div>
+          ${rechMsg}
+        </div>`;
+    }).join('');
+  }
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon">📋</div>
+        <div style="flex:1">
+          <div class="card-header-title">Mis días solicitados</div>
+          <div class="card-header-sub">${esc(nombre)}</div>
+        </div>
+        <button class="logout-btn" onclick="verVista('mis-solicitudes')">✕ Salir</button>
+      </div>
+      <div class="card-body">
+        ${listHtml}
+        <button class="btn btn-ghost w100 mt-8" onclick="verVista('solicitar')">📅 Hacer nueva solicitud</button>
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════
+   VISTA: LOGIN ADMIN
+═══════════════════════════════════════ */
+function renderLoginAdmin() {
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card" style="max-width:380px;margin:0 auto">
+      <div class="card-header">
+        <div class="card-header-icon">🔐</div>
+        <div>
+          <div class="card-header-title">Acceso Administrador</div>
+          <div class="card-header-sub">Solo personal autorizado</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="eyebrow">PIN de acceso</div>
+        <div class="pin-row">
+          <input type="password" inputmode="numeric" maxlength="8"
+            id="pinInput" placeholder="••••"
+            onkeydown="if(event.key==='Enter') loginAdmin()"/>
+          <button class="btn btn-primary" onclick="loginAdmin()">Entrar</button>
+        </div>
+        <div id="loginError" class="mt-12"></div>
+      </div>
+    </div>`;
+  setTimeout(()=>document.getElementById('pinInput')?.focus(), 80);
+}
+
+function loginAdmin() {
+  const pin = document.getElementById('pinInput')?.value.trim();
+  if (pin===PIN_ADMIN) { adminLogueado=true; verVista('admin'); }
+  else {
+    document.getElementById('loginError').innerHTML =
+      `<div class="alert alert-error">PIN incorrecto. Intenta nuevamente.</div>`;
+    setTimeout(()=>{ const e=document.getElementById('loginError'); if(e) e.innerHTML=''; }, 3000);
+  }
+}
+
+/* ═══════════════════════════════════════
+   VISTA: ADMIN DASHBOARD
+═══════════════════════════════════════ */
+function renderAdmin() {
+  if (!adminLogueado) { verVista('login-admin'); return; }
+  const pend = solicitudes.filter(s=>s.estado==='pendiente').length;
+  const apro = solicitudes.filter(s=>s.estado==='aprobado').length;
+  const rech = solicitudes.filter(s=>s.estado==='rechazado').length;
+
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-header-icon">📊</div>
+        <div style="flex:1">
+          <div class="card-header-title">Dashboard de solicitudes</div>
+          <div class="card-header-sub">CasaIdeas Algarrobo</div>
+        </div>
+        <button class="logout-btn" onclick="logoutAdmin()">✕ Salir</button>
+      </div>
+      <div class="card-body">
+        <div class="stats-row">
+          <div class="stat-box"><div class="stat-num" style="color:var(--am)">${pend}</div><div class="stat-lbl">Pendientes</div></div>
+          <div class="stat-box"><div class="stat-num" style="color:var(--verde)">${apro}</div><div class="stat-lbl">Aprobadas</div></div>
+          <div class="stat-box"><div class="stat-num" style="color:var(--rojo)">${rech}</div><div class="stat-lbl">Rechazadas</div></div>
+        </div>
+        <div class="filter-row">
+          <button class="filt-btn ${filtroAdmin==='todos'?'active':''}"     onclick="setFiltro('todos')">Todas</button>
+          <button class="filt-btn ${filtroAdmin==='pendiente'?'active':''}" onclick="setFiltro('pendiente')">⏳ Pendientes</button>
+          <button class="filt-btn ${filtroAdmin==='aprobado'?'active':''}"  onclick="setFiltro('aprobado')">✅ Aprobadas</button>
+          <button class="filt-btn ${filtroAdmin==='rechazado'?'active':''}" onclick="setFiltro('rechazado')">❌ Rechazadas</button>
+          <button class="filt-btn ${filtroAdmin==='pines'?'active':''}"     onclick="setFiltro('pines')">🔑 PINs</button>
+        </div>
+        <div id="adminContenido"></div>
+      </div>
+    </div>`;
+  renderAdminContenido();
+}
+
+function renderAdminContenido() {
+  const el = document.getElementById('adminContenido');
+  if (!el) return;
+  if (filtroAdmin === 'pines') { renderGestionPines(el); return; }
+
+  const lista  = filtroAdmin==='todos' ? solicitudes : solicitudes.filter(s=>s.estado===filtroAdmin);
+  const sorted = [...lista].sort((a,b)=>b.ts-a.ts);
+
+  if (sorted.length===0) {
+    el.innerHTML=`<div class="no-sols"><div class="ic">📭</div><p>No hay solicitudes${filtroAdmin!=='todos'?' en esta categoría':''}.</p></div>`;
+    return;
+  }
+
+  const sClsMap = { pendiente:'sb-pend', aprobado:'sb-ok', rechazado:'sb-ko' };
+  const sTxtMap = { pendiente:'⏳ Pendiente', aprobado:'✅ Aprobado', rechazado:'❌ Rechazado' };
+
+  el.innerHTML = sorted.map(s => {
+    const motivoRech = s.motivoRechazo
+      ? `<div class="alert alert-error mt-8" style="font-size:13px"><strong>Motivo de rechazo:</strong> ${esc(s.motivoRechazo)}</div>` : '';
+    const botones = s.estado==='pendiente' ? `
+      <div class="sol-actions">
+        <button class="btn btn-sm btn-success" onclick="aprobar('${s.id}')">✓ Aprobar</button>
+        <button class="btn btn-sm btn-danger"  onclick="mostrarRechazo('${s.id}')">✕ Rechazar</button>
+      </div>
+      <div id="rechazoBox_${s.id}" class="rechazo-box hidden">
+        <input type="text" id="motivoRech_${s.id}" placeholder="Motivo del rechazo (requerido)…"
+          onkeydown="if(event.key==='Enter') rechazar('${s.id}')"/>
+        <div class="row-btns">
+          <button class="btn btn-sm btn-danger" onclick="rechazar('${s.id}')">Confirmar rechazo</button>
+          <button class="btn btn-sm btn-ghost"  onclick="ocultarRechazo('${s.id}')">Cancelar</button>
+        </div>
+      </div>` : '';
+
+    return `<div class="sol-card" id="sol_${s.id}">
+      <div class="sol-top">
+        <div>
+          <div class="sol-name">${esc(s.colaborador)}</div>
+          <div class="sol-meta">Enviado: ${tsToStr(s.ts)}</div>
+          ${s.motivo ? `<div class="sol-meta">Motivo: ${esc(s.motivo)}</div>` : ''}
+        </div>
+        <span class="status-badge ${sClsMap[s.estado]}">${sTxtMap[s.estado]}</span>
+      </div>
+      <div class="sol-dias">${s.dias.map(d=>`<span class="dia-chip">${fmtFecha(d.anio,d.mes,d.dia)}</span>`).join('')}</div>
+      ${motivoRech}
+      ${botones}
+    </div>`;
+  }).join('');
+}
+
+/* ── GESTIÓN PINES (admin) ── */
+function renderGestionPines(el) {
+  const rows = COLABORADORES.map(nombre => {
+    const tiene = tienePin(nombre);
+    return `<div class="colab-row">
+      <div>
+        <div class="colab-nombre">${esc(nombre)}</div>
+        <div class="colab-pin-status">${tiene ? '🔒 PIN configurado' : '⚠️ Sin PIN aún'}</div>
+      </div>
+      ${tiene
+        ? `<button class="btn btn-sm btn-warn" onclick="adminResetPin('${esc(nombre)}')">Reiniciar PIN</button>`
+        : `<span style="font-size:12px;color:var(--g5)">Sin acceso todavía</span>`}
+    </div>`;
+  }).join('');
+
+  el.innerHTML = `
+    <div style="background:var(--g0);border:1.5px solid var(--g2);border-radius:12px;padding:16px">
+      <div style="font-size:13px;color:var(--g5);margin-bottom:14px;font-weight:600">
+        Desde aquí puedes reiniciar el PIN de un colaborador si lo olvidó. Al reiniciarlo, deberá crear uno nuevo la próxima vez que ingrese a <em>Mis días</em>.
+      </div>
+      ${rows}
+    </div>`;
+}
+
+function adminResetPin(nombre) {
+  if (!confirm(`¿Reiniciar el PIN de ${nombre}? Deberá crear uno nuevo al volver a ingresar.`)) return;
+  resetPin(nombre);
+  renderAdminContenido();
+}
+
+function setFiltro(f) { filtroAdmin=f; renderAdmin(); }
+
+function aprobar(id) {
+  const s = solicitudes.find(x=>x.id===id);
+  if (!s) return;
+  s.estado='aprobado'; guardarSolicitudes(); renderAdmin();
+}
+function mostrarRechazo(id) {
+  document.getElementById(`rechazoBox_${id}`)?.classList.remove('hidden');
+  document.getElementById(`motivoRech_${id}`)?.focus();
+}
+function ocultarRechazo(id) {
+  document.getElementById(`rechazoBox_${id}`)?.classList.add('hidden');
+}
+function rechazar(id) {
+  const motivo = document.getElementById(`motivoRech_${id}`)?.value.trim();
+  if (!motivo) { alert('Debes ingresar el motivo del rechazo.'); return; }
+  const s = solicitudes.find(x=>x.id===id);
+  if (!s) return;
+  s.estado='rechazado'; s.motivoRechazo=motivo; guardarSolicitudes(); renderAdmin();
+}
+function logoutAdmin() { adminLogueado=false; verVista('solicitar'); }
+
+/* ═══════════════════════════════════════
+   ARRANQUE
+═══════════════════════════════════════ */
+cargarDatos();
+renderSolicitar();
+</script>
+</body>
+</html>
