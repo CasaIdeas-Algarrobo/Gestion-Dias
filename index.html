@@ -41,6 +41,16 @@
 .header-loc { font-size:11px; color:var(--g5); margin-top:2px; font-weight:500; text-align:center; }
 .header-nav { display:flex; gap:6px; justify-content:center; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-bottom:2px; }
 .header-nav::-webkit-scrollbar { display:none; }
+
+/* Desktop: vuelve al layout original en una sola fila */
+@media (min-width:600px) {
+  .header-inner { flex-direction:row; align-items:center; gap:14px; padding:12px 18px; }
+  .header-top { justify-content:flex-start; }
+  .header-eyebrow { text-align:left; }
+  .header-title { font-size:19px; text-align:left; }
+  .header-loc { text-align:left; }
+  .header-nav { justify-content:flex-end; margin-left:auto; flex-wrap:wrap; overflow-x:visible; padding-bottom:0; }
+}
 .nav-btn {
   padding:7px 14px; border-radius:20px; border:1.5px solid var(--g2);
   background:var(--g0); font-size:12px; font-weight:700; color:var(--g7);
