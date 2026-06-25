@@ -29,23 +29,25 @@
       padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom);
     }
     /* HEADER */
-    .header { background:var(--bl); box-shadow:0 1px 8px rgba(0,0,0,.07); border-bottom:1px solid var(--g2); position:sticky; top:0; z-index:50; }
-    .header-inner { max-width:720px; margin:0 auto; padding:12px 18px; display:flex; align-items:center; gap:14px; }
-    .logo-wrap { flex-shrink:0; background:var(--g0); border:1px solid var(--g2); border-radius:10px; padding:7px 11px; }
-    .logo { height:32px; width:auto; object-fit:contain; display:block; }
-    .header-text { flex:1; min-width:0; }
-    .header-eyebrow { font-size:9px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--az5); margin-bottom:2px; }
-    .header-title { font-size:19px; font-weight:900; color:var(--g9); letter-spacing:-.5px; line-height:1; }
-    .header-title .ver { color:var(--az6); font-size:20px; }
-    .header-loc { font-size:11px; color:var(--g5); margin-top:3px; font-weight:500; }
-    .header-nav { display:flex; gap:6px; margin-left:auto; flex-shrink:0; flex-wrap:wrap; justify-content:flex-end; }
-    .nav-btn {
-      padding:7px 12px; border-radius:20px; border:1.5px solid var(--g2);
-      background:var(--g0); font-size:12px; font-weight:700; color:var(--g7);
-      cursor:pointer; white-space:nowrap; transition:all .15s; font-family:var(--font);
-    }
-    .nav-btn:hover { background:var(--az1); border-color:var(--az4); color:var(--az7); }
-    .nav-btn.active { background:var(--az6); color:#fff; border-color:var(--az6); }
+.header { background:var(--bl); box-shadow:0 1px 8px rgba(0,0,0,.07); border-bottom:1px solid var(--g2); position:sticky; top:0; z-index:50; }
+.header-inner { max-width:720px; margin:0 auto; padding:10px 16px; display:flex; flex-direction:column; gap:8px; }
+.header-top { display:flex; align-items:center; gap:12px; }
+.logo-wrap { flex-shrink:0; background:var(--g0); border:1px solid var(--g2); border-radius:10px; padding:6px 10px; }
+.logo { height:28px; width:auto; object-fit:contain; display:block; }
+.header-text { flex:1; min-width:0; }
+.header-eyebrow { font-size:9px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--az5); margin-bottom:1px; }
+.header-title { font-size:17px; font-weight:900; color:var(--g9); letter-spacing:-.5px; line-height:1; }
+.header-title .ver { color:var(--az6); }
+.header-loc { font-size:11px; color:var(--g5); margin-top:2px; font-weight:500; }
+.header-nav { display:flex; gap:6px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-bottom:2px; }
+.header-nav::-webkit-scrollbar { display:none; }
+.nav-btn {
+  padding:7px 14px; border-radius:20px; border:1.5px solid var(--g2);
+  background:var(--g0); font-size:12px; font-weight:700; color:var(--g7);
+  cursor:pointer; white-space:nowrap; transition:all .15s; font-family:var(--font); flex-shrink:0;
+}
+.nav-btn:hover { background:var(--az1); border-color:var(--az4); color:var(--az7); }
+.nav-btn.active { background:var(--az6); color:#fff; border-color:var(--az6); }
     /* MAIN */
     .main { flex:1; max-width:720px; width:100%; margin:0 auto; padding:20px 16px 48px; display:flex; flex-direction:column; gap:16px; }
     /* CARD */
@@ -181,13 +183,15 @@
 
 <header class="header">
   <div class="header-inner">
-    <div class="logo-wrap">
-      <img src="https://www.casaideas.com.bo/static/media/logo.40b7cd09.png" alt="Casaideas" class="logo" onerror="this.style.display='none'"/>
-    </div>
-    <div class="header-text">
-      <div class="header-eyebrow">Gestión de Turnos</div>
-      <div class="header-title">Días Libres <span class="ver">Mensual</span></div>
-      <div class="header-loc">📍 Algarrobo</div>
+    <div class="header-top">
+      <div class="logo-wrap">
+        <img src="https://www.casaideas.com.bo/static/media/logo.40b7cd09.png" alt="Casaideas" class="logo" onerror="this.style.display='none'"/>
+      </div>
+      <div class="header-text">
+        <div class="header-eyebrow">Gestión de Turnos</div>
+        <div class="header-title">Días Libres <span class="ver">Mensual</span></div>
+        <div class="header-loc">📍 Algarrobo</div>
+      </div>
     </div>
     <div class="header-nav">
       <button class="nav-btn active" id="navSolicitar"  onclick="verVista('solicitar')">📅 Solicitar</button>
